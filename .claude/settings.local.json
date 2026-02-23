@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv sync)",
+      "Bash(uv run python:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv run pytest tests/test_backstop.py -v)",
+      "Bash(set:*)",
+      "Bash(uv run uvicorn:*)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(start:*)",
+      "Bash(echo:*)",
+      "WebSearch",
+      "Bash(gcloud config:*)",
+      "Bash(where:*)",
+      "Bash(gcloud:*)",
+      "Bash(/c/Program Files/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.exe:*)",
+      "Bash(/mnt/c/Program Files/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.exe --version)",
+      "Bash(ls:*)",
+      "Bash(\"F:/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.cmd\" --version)",
+      "Bash(\"F:/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.cmd\" config set project agenticaicolumbia)",
+      "Bash(\"F:/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.cmd\" services enable artifactregistry.googleapis.com cloudbuild.googleapis.com run.googleapis.com iam.googleapis.com)",
+      "Bash(\"F:/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.cmd\" auth list)",
+      "Bash(\"F:/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud.cmd\" iam service-accounts create hf-explorer-builder --display-name=\"HF Explorer Cloud Build\")",
+      "Bash(cmd /c:*)",
+      "Bash(export:*)",
+      "Bash(\"/f/Program Files \\(x86\\)/Google/Cloud SDK/google-cloud-sdk/bin/gcloud\" iam service-accounts list --project=agenticaicolumbia)",
+      "Bash(powershell.exe -Command \"& ''F:\\\\Program Files \\(x86\\)\\\\Google\\\\Cloud SDK\\\\google-cloud-sdk\\\\bin\\\\gcloud.cmd'' iam service-accounts list --project=agenticaicolumbia\")",
+      "Bash(powershell.exe -Command \"& ''F:\\\\Program Files \\(x86\\)\\\\Google\\\\Cloud SDK\\\\google-cloud-sdk\\\\bin\\\\gcloud.cmd'' iam service-accounts create hf-explorer-builder --display-name=''HF Explorer Cloud Build''\")",
+      "Bash(powershell.exe -Command \"& ''F:\\\\Program Files \\(x86\\)\\\\Google\\\\Cloud SDK\\\\google-cloud-sdk\\\\bin\\\\gcloud.cmd'' iam service-accounts create hf-explorer-run --display-name=''HF Explorer Cloud Run''\")",
+      "Bash(powershell.exe:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

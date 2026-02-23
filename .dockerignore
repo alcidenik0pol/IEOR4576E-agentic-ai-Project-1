@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Credentials - NEVER include in Docker image
+credentials/
+*.json
+!data/models_snapshot*.json
+
+# Tests and eval
+tests/
+eval/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation
+*.md
+!README.md
+docs/
+
+# Task tracking
+tasks/
+
+# Claude
+.claude/
+
+# Environment files
+.env
+.env.*
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db

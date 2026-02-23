@@ -1,0 +1,66 @@
+# Cloud Build configuration for deploying HF Explorer to Cloud Run
+# Based on: Deploying a FastAPI App to Cloud Run with Cloud Build & uv
+
+substitutions:
+  _IMAGE_TAG: "latest"
+
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer:${_IMAGE_TAG}"
+      - "-t"
+      - "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer:latest"
+      - "."
+    dir: "."
+
+  # Push the container image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "--all-tags", "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer"]
+
+  # Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "hf-explorer"
+      - "--image"
+      - "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer:${_IMAGE_TAG}"
+      - "--region"
+      - "us-central1"
+      - "--platform"
+      - "managed"
+      - "--cpu"
+      - "1"
+      - "--memory"
+      - "1Gi"
+      - "--min-instances"
+      - "0"
+      - "--max-instances"
+      - "100"
+      - "--concurrency"
+      - "50"
+      - "--timeout"
+      - "60s"
+      - "--no-cpu-throttling"
+      - "--allow-unauthenticated"
+      - "--set-env-vars"
+      - "GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=us-central1,VERTEX_MODEL_ID=gemini-2.0-flash-exp,ENVIRONMENT=production"
+      - "--deploy-health-check"
+      - "--service-account"
+      - "hf-explorer-run@${PROJECT_ID}.iam.gserviceaccount.com"
+
+# Store images in Artifact Registry
+images:
+  - "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer:${_IMAGE_TAG}"
+  - "us-central1-docker.pkg.dev/${PROJECT_ID}/hf-explorer-repo/hf-explorer:latest"
+
+# Build options
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# Build timeout
+timeout: "600s"
