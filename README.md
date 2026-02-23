@@ -52,16 +52,6 @@ gcloud builds submit --config=cloudbuild.yaml --service-account='projects/agenti
 
 See `tasks/deploy-instructions.md` for full setup (service accounts, IAM, Artifact Registry).
 
-### Rate Limiting
-
-The app has two layers of request limiting:
-
-1. **Application-level (per user)** — 20 requests/minute per IP via `slowapi`. Returns `429` with a friendly message. Protects against abuse and contains costs.
-
-2. **Vertex AI quota (per project)** — Google's API limit (free tier: ~15-20 req/min). Returns `429 Quota exceeded...` when exceeded.
-
-The app-level limit triggers first in most cases, providing faster failure and better UX. Once you increase Vertex quota in production, the app-level limit becomes the primary abuse protection.
-
 ### Run Evaluations
 
 ```bash
@@ -126,3 +116,15 @@ Model data is frozen from the HuggingFace API:
 - **Location:** `data/models_snapshot_20260221.json`
 
 All answers are relative to this snapshot. Answers about new models or changed statistics will not reflect current HuggingFace data.
+
+---
+
+## Rate Limiting
+
+The app has two layers of request limiting:
+
+1. **Application-level (per user)** — 20 requests/minute per IP via `slowapi`. Returns `429` with a friendly message. Protects against abuse and contains costs.
+
+2. **Vertex AI quota (per project)** — Google's API limit (free tier: ~15-20 req/min). Returns `429 Quota exceeded...` when exceeded.
+
+The app-level limit triggers first in most cases, providing faster failure and better UX. Once you increase Vertex quota in production, the app-level limit becomes the primary abuse protection.
