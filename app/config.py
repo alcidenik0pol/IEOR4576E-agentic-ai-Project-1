@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # Google Cloud configuration
     google_cloud_project: str = "agenticaicolumbia"
     google_cloud_location: str = "us-central1"
-    vertex_model_id: str = "gemini-2.0-flash-exp"
+    vertex_model_id: str = "gemini-2.0-flash"
 
     # Application configuration
     environment: str = "development"

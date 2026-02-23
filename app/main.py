@@ -27,6 +27,7 @@ from app.config import get_settings
 from app.middleware import SecurityHeadersMiddleware, RequestLoggingMiddleware, setup_cors
 from app.models import ChatRequest, ChatResponse, HealthResponse
 from app.prompts import format_chat_prompt
+from app.retry import call_with_retry
 
 # Configuration
 settings = get_settings()
@@ -218,8 +219,11 @@ async def chat(request: Request, chat_request: ChatRequest) -> ChatResponse:
             max_output_tokens=1024,
         )
 
-        # Generate response
-        response = llm_model.generate_content(prompt, generation_config=config)
+        # Generate response with retry for 429 errors
+        def generate():
+            return llm_model.generate_content(prompt, generation_config=config)
+
+        response = call_with_retry(generate, max_retries=3, base_delay=2.0)
         answer = response.text
 
     except Exception as e:

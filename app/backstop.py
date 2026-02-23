@@ -17,6 +17,8 @@ import re
 from dataclasses import dataclass
 from typing import Pattern
 
+from app.retry import call_with_retry
+
 
 @dataclass
 class OutOfScopeCategory:
@@ -167,7 +169,12 @@ def check_intent_with_llm(message: str, llm) -> tuple[bool, str | None]:
     try:
         prompt = INTENT_CLASSIFIER_PROMPT.format(message=message)
         config = GenerationConfig(temperature=0.0, max_output_tokens=10)
-        response = llm.generate_content(prompt, generation_config=config)
+
+        # Use retry logic for 429 errors
+        def classify():
+            return llm.generate_content(prompt, generation_config=config)
+
+        response = call_with_retry(classify, max_retries=2, base_delay=1.0)
         result = response.text.strip().upper()
 
         if "MALICIOUS" in result:
